@@ -4,43 +4,37 @@ using UnityEngine;
 
 public class StartGameState : GameStateBase
 {
+    [SerializeField] private CanvasGroup _startUI; 
+    [SerializeField] private Vector2 _backGroundUVSpeed;
     private bool flag;
     private CancellationToken _ct;
 
-    public override void OnEnter(CancellationToken ct)
+    public override async void OnEnter(CancellationToken ct)
     {
         _ct = ct;
-        Debug.Log("Start");
-        
+        _startUI.gameObject.SetActive(true);
+        BackGroundController.Instance.SetUVSpeed(_backGroundUVSpeed);
+        flag = false;
+        await UniTask.Delay(1000, DelayType.Realtime, PlayerLoopTiming.Update, _ct);
+        flag = true;
     }
 
-    public override async void OnUpdate(float deltaTime)
+    public override void OnUpdate(float deltaTime)
     {
-        if (!flag)
+        BackGroundController.Instance.ManualUpdate(deltaTime);
+        if (flag)
         {
-            flag = true;
-            try
+            if (Input.GetMouseButtonDown(0))
             {
-                await UniTask.Delay(3000, DelayType.Realtime, PlayerLoopTiming.Update, _ct);
+                GameStateMachine.Instance.ChangeNextState(GamePhase.Title);
             }
-            catch
-            {
-                Debug.LogWarning("StartCanceled");
-            }
-
-        }
-        //Debug.Log("Startなう");
-
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            GameStateMachine.Instance.ChangeNextState(GamePhase.Title);
-            flag = false;
         }
     }
 
     public override void OnExit()
     {
         _ct = default;
-        Debug.Log("Startおわり");
+        _startUI.gameObject.SetActive(false);
+        
     }
 }

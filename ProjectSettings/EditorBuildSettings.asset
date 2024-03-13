@@ -4,5 +4,9 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/AssetStoreTools/Brick Project Studio/Fast Food Restaurant Kit/Scene/FFK
+      Sample Scene.unity
+    guid: fb136c06366ae524ead5e40e16c2fcdb
   m_configObjects: {}

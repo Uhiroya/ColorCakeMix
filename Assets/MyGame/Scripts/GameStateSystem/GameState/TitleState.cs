@@ -1,45 +1,35 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TitleState : GameStateBase
 {
-    private bool flag;
+    [SerializeField] private CanvasGroup _titleUI; 
+    [SerializeField] private Vector2 _backGroundUVSpeed;
     private CancellationToken _ct;
+
+    public void OnClickGameStart()
+    {
+        GameStateMachine.Instance.ChangeNextState(GamePhase.StartGame);
+    }
+    
     public override void OnEnter(CancellationToken ct)
     {
         _ct = ct;
-        Debug.Log("Title");
-        
+        _titleUI.gameObject.SetActive(true);
+        BackGroundController.Instance.SetUVSpeed(_backGroundUVSpeed);
     }
 
-    public override async void OnUpdate(float deltaTime)
+    public override void OnUpdate(float deltaTime)
     {
-        if (!flag)
-        {
-            flag = true;
-            try
-            {
-                await UniTask.Delay(3000, DelayType.Realtime, PlayerLoopTiming.Update, _ct);
-            }
-            catch
-            {
-                Debug.LogWarning("Canceled");
-            }
-
-        }
-        //Debug.Log("Titleなう");
-
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            GameStateMachine.Instance.ChangeNextState(GamePhase.StartGame);
-            flag = false;
-        }
+        BackGroundController.Instance.ManualUpdate(deltaTime);
     }
 
     public override void OnExit()
     {
         _ct = default;
+        _titleUI.gameObject.SetActive(false);
         Debug.Log("Titleおわり");
     }
 }
