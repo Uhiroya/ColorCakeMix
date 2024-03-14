@@ -20,6 +20,7 @@ public class TitleState : GameStateBase
         _titleUI.gameObject.SetActive(true);
         BackGroundController.Instance.SetUVSpeed(_backGroundUVSpeed);
         AudioManager.Instance.PlayBGM(BGMType.Title);
+        BackGroundController.Instance.Display(true);
     }
 
     public override void OnUpdate(float deltaTime)
