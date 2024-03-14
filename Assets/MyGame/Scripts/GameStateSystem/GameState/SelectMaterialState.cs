@@ -14,7 +14,7 @@ public class SelectMaterialState : GameStateBase
     [SerializeField] private GameObject _materialPanel;
     [SerializeField] private HotCakeView _cakeView;
     [SerializeField, Tooltip("Score減点計算のBase満点")] float _baseScore = 500;
-    [SerializeField, Tooltip("減点用のスコアの乗数")] private float _colorScoreMultiplier = 50f;
+    [SerializeField, Tooltip("減点用のスコアの乗数")] private float _colorScoreMultiplier = 5f;
     
     private CancellationToken _ct;
 
@@ -63,13 +63,8 @@ public class SelectMaterialState : GameStateBase
             colorSum += color;
         }
         colorSum /= 3f;
-        var colorScore = ColorUtility.ColorDistance(colorManager.OrderColor, colorSum) * _colorScoreMultiplier;
+        var colorScore = _baseScore - ColorUtility.ColorDistance(colorManager.OrderColor, colorSum) * _colorScoreMultiplier;
         InGameManager.Instance.AddColorScore((int)colorScore, colorSum);
         Debug.Log($"ColorScore {colorScore}");
-    }
-
-    private void CalcColorScore()
-    {
-        
     }
 }

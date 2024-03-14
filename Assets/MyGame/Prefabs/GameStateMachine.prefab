@@ -423,7 +423,7 @@ MonoBehaviour:
   _materialPanel: {fileID: 3050765118044666724}
   _cakeView: {fileID: 6035452839807128367}
   _baseScore: 500
-  _colorScoreMultiplier: 1
+  _colorScoreMultiplier: 5
 --- !u!114 &4468370143876541841
 MonoBehaviour:
   m_ObjectHideFlags: 0
