@@ -9,46 +9,41 @@ namespace Takechi
         /// </summary>
         public static float ColorDistance(Color color1, Color color2)
         {
-            var subtractColor = XYZtoLAB(RGBtoXYZ(color1)) - XYZtoLAB(RGBtoXYZ(color2));
-            return Mathf.Lerp(0, 100,
-                (3f - (subtractColor.x / 95.047f + subtractColor.y / 100f + subtractColor.z / 108.883f)) / 3f);
+            return Distance(RGBToLAB(color1), RGBToLAB(color2));
         }
-        static Vector3 RGBtoXYZ(Color color)
-        {
-            float r = color.r;
-            float g = color.g;
-            float b = color.b;
-    
-            if (r > 0.04045f) r = Mathf.Pow((r + 0.055f) / 1.055f, 2.4f);
-            else r /= 12.92f;
-            if (g > 0.04045f) g = Mathf.Pow((g + 0.055f) / 1.055f, 2.4f);
-            else g /= 12.92f;
-            if (b > 0.04045f) b = Mathf.Pow((b + 0.055f) / 1.055f, 2.4f);
-            else b /= 12.92f;
-    
-            r *= 100.0f;
-            g *= 100.0f;
-            b *= 100.0f;
-    
-            return new Vector3(r * 0.4124f + g * 0.3576f + b * 0.1805f, 
-                r * 0.2126f + g * 0.7152f + b * 0.0722f, 
-                r * 0.0193f + g * 0.1192f + b * 0.9505f);
+        static float Func(float x){
+            if(x>0.008856f){
+                return Mathf.Pow(x,(1f/3f));
+            }else {
+                return (1f/3f)*(Mathf.Pow((0.008856f),2f))*x+4f/29f;
+            }
         }
-    
-        static Vector3 XYZtoLAB(Vector3 color)
+
+        public static Vector3 RGBToLAB(Color color){
+            float rl = Mathf.Pow(color.r,2.2f);
+            float gl = Mathf.Pow(color.g,2.2f);
+            float bl = Mathf.Pow(color.b,2.2f);
+
+            float M11=0.4124f,M12=0.3576f,M13=0.1805f;
+            float M21=0.2126f,M22=0.7152f,M23=0.0722f;
+            float M31=0.0193f,M32=0.1192f,M33=0.9505f;
+
+            float i = M11+M12+M13;
+            float j = M21+M22+M23;
+            float k = M31+M32+M33;
+
+            float x = M11*rl+M12*gl+M13*bl;
+            float y = M21*rl+M22*gl+M23*bl;
+            float z = M31*rl+M32*gl+M33*bl;
+
+            return new Vector3(116f*Func(y/j)-16f, 500f*(Func(x/i)-Func(y/j)), 200f*(Func(y/j)-Func(z/k)));
+        }
+
+        static float Distance(Vector3 c1,Vector3 c2)
         {
-            color.x /= 95.047f;
-            color.y /= 100.000f;
-            color.z /= 108.883f;
-    
-            if (color.x > 0.008856f) color.x = Mathf.Pow(color.x, 1.0f / 3.0f);
-            else color.x = (7.787f * color.x) + (16.0f / 116.0f);
-            if (color.y > 0.008856f) color.y = Mathf.Pow(color.y, 1.0f / 3.0f);
-            else color.y = (7.787f * color.y) + (16.0f / 116.0f);
-            if (color.z > 0.008856f) color.z = Mathf.Pow(color.z, 1.0f / 3.0f);
-            else color.z = (7.787f * color.z) + (16.0f / 116.0f);
-    
-            return new Vector3((116.0f * color.y) - 16.0f, 500.0f * (color.x - color.y), 200.0f * (color.y - color.z));
+            return Mathf.Sqrt(Mathf.Pow(c2.x - c1.x,2f) + 
+                             Mathf.Pow(c2.y - c1.y,2f) + 
+                             Mathf.Pow(c2.z - c1.z,2f));
         }
     }
 }

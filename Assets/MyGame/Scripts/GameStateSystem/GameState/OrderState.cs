@@ -13,6 +13,10 @@ public class OrderState : GameStateBase
     private CancellationToken _ct;
     public override void OnEnter(CancellationToken ct)
     {
+        AudioManager.Instance.PlayBGM(BGMType.InGame);
+        //  オーダー作成
+        ColorManager.Instance.DecisionOrderColor();
+        //  客スライド
         var pos = _customer.anchoredPosition;
         pos.x = _startXPosition;
         _customer.anchoredPosition = pos;
@@ -20,6 +24,7 @@ public class OrderState : GameStateBase
             .OnComplete(() =>
             {
                 GameStateMachine.Instance.ChangeNextState(GamePhase.SelectMaterial);
+                AudioManager.Instance.PlaySe(SeType.Order);
             }).SetLink(gameObject);
     }
 

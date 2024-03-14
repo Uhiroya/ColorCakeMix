@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using Cinemachine;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 /// <summary>
@@ -20,15 +21,24 @@ public class CookState : GameStateBase
         _cookPanel.SetActive(false);
     }
 
-    public override void OnEnter(CancellationToken ct)
+    public override async void OnEnter(CancellationToken ct)
     {
-        Invoke(nameof(StartCook), 2);
-        _cookPanel.SetActive(true);
+        await StartCook(ct);
     }
 
-    void StartCook()
+    async UniTask StartCook(CancellationToken ct)
     {
+        try
+        {
+            await UniTask.Delay(0, DelayType.DeltaTime, PlayerLoopTiming.Update, ct);
+        }
+        catch
+        {
+            
+        }
+        _cookPanel.SetActive(true);
         _isCooking = true;
+        _batterManager.InitializeParameter();
         _batterManager.InitializeRandomValue();
     }
 
