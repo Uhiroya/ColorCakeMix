@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,25 +8,38 @@ using UnityEngine.Networking;
 using UnityEngine.UI; //ネットワーク用のネームスペース
 
 
-public class DataController : MonoBehaviour
+public class RankingDataController : MonoBehaviour
 {
-    [SerializeField] Text _viewText;
+    [SerializeField] private Transform _rankingParent;
+    [SerializeField] private GameObject _rankingTextPrefab;
     [SerializeField] Button dataButton;　//追加
     [SerializeField] InputField nameField; //追加
 
     private const string URL = "https://docs.google.com/spreadsheets/d/1StuGiDa9z08HEDhna7L1oTaUmi1LGXtgf9mnA3RUhV8/gviz/tq?tqx=out:csv&sheet=test";
     private const string GasUrl = "https://script.google.com/macros/s/AKfycbw2P3Ia7tHq9dbtaDZhpqeoVGJw7bpFxTxj9lHGE1lWWBieShhU7KNRhUIN-z-8F0Fadw/exec";  //追加（最初は空っぽ）
 
-    private List<SendData> _rankingList = new List<SendData>();
-    private List<SendData> _sendDataList = new List<SendData>();
-    async void Start()
-    {
-        await GetData(); //データ取得用のコルーチン
-        
-        dataButton.onClick.AddListener(()=> StartCoroutine(PostData()));
-    }
+    private List<SendData> _rankingList;
 
-    async UniTask GetData()
+    #region Unity公開箇所
+    public void ResultEnter()
+    {
+        dataButton.onClick.AddListener(RegisterLister);
+    }
+    public void ResultExit()
+    {
+        dataButton.onClick.RemoveListener(RegisterLister);
+    }
+    void RegisterLister()
+    {
+        StartCoroutine(PostData());
+    }
+    public void MakeRanking()
+    {
+        _ = GetData();
+    }
+    #endregion
+
+    public async UniTask GetData()
     {
         using (UnityWebRequest req = UnityWebRequest.Get(URL)) //UnityWebRequest型オブジェクト
         {
@@ -34,21 +48,28 @@ public class DataController : MonoBehaviour
             if (IsWebRequestSuccessful(req)) //成功した場合
             {
                 var csvData = req.downloadHandler.text.Replace("\"", "");
-                _viewText.text = csvData;
                 var data = csvData.Split('\n');
                 for (int i = 0; i < data.Length; i++)
                 {
                     if (i != 0)
                     {
-                        var sendData = data[i].Split(',');
-                        _rankingList.Add(new SendData(sendData[0] , int.Parse(sendData[1])));
+                        var sData = data[i].Split(',');
+                        _rankingList.Add(new SendData( sData[0] , sData[1] , sData[2] ));
                     }
                 }
-                _rankingList = _rankingList.OrderByDescending(x => x.Score).ToList();
+                _rankingList = _rankingList.OrderByDescending(x => int.Parse(x.Score)).ToList();
+                //順位挿入用
+                int rank = 1;
+                foreach (var sData in _rankingList)
+                {
+                    RankingDataTextsControlls _rankText = Instantiate(_rankingTextPrefab , _rankingParent).GetComponent<RankingDataTextsControlls>();
+                    _rankText.SetTexts(rank.ToString(), sData.PlayerName , sData.Score , sData.Date);
+                    rank++;
+                }
             }
             else //失敗した場合
             {
-                Debug.Log("error");
+                Debug.Log("データ獲得に失敗しました");
             }
         }
     }
@@ -65,7 +86,7 @@ public class DataController : MonoBehaviour
         //それぞれのInputFieldから情報を取得
         string nameText = nameField.text;
         int score = 1000;
-        
+        string sendTime = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
         //値が空の場合は処理を中断
         if(string.IsNullOrEmpty(nameText))
         {
@@ -74,7 +95,7 @@ public class DataController : MonoBehaviour
         }
         
         //それぞれの値をカンマ区切りでcombinedText変数に代入
-        string combinedText = string.Join(",", nameText, score);
+        string combinedText = string.Join(",", nameText, score , sendTime);
         
         //formにPostする情報をvalというキー、値はcombinedTextで追加する
         form.AddField("val", combinedText);
@@ -86,7 +107,7 @@ public class DataController : MonoBehaviour
             yield return req.SendWebRequest();
             
             //リクエストが成功したかどうかの判定
-            Debug.Log(IsWebRequestSuccessful(req) ? "success" : "error");
+            Debug.Log(IsWebRequestSuccessful(req) ? "データ登録に成功しました" : "データ登録に失敗しました");
         }
     }
     //リクエストが成功したかどうか判定する関数
@@ -103,7 +124,6 @@ public class DataController : MonoBehaviour
             print("Connection error");
             return false;
         }
-
         return true;
     }
 }
@@ -112,11 +132,14 @@ public class DataController : MonoBehaviour
 public class SendData
 {
     public string PlayerName;
-    public int Score;
+    public string Score;
+    //TODO 日時比較も行うならDateTimeを利用する
+    public string Date;
 
-    public SendData(string playerName, int score)
+    public SendData(string playerName, string score, string date)
     {
         PlayerName = playerName;
         Score = score;
+        Date = date;
     }
 }
