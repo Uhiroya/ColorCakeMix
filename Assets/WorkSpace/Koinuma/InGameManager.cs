@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class InGameManager : SingletonMonoBehavior<InGameManager>
@@ -6,15 +7,18 @@ public class InGameManager : SingletonMonoBehavior<InGameManager>
 
     private bool _isInGame;
     private float _inGameTimer;
-    private int _totalScore;
-    private int _colorScore;
+    private int _currentTotalScore;
+    private Color _currentColor;
+    private List<CakeData> _finishedCakeDatas = new List<CakeData>();
+    public List<CakeData> FinishedCakeDatas => _finishedCakeDatas;
     
     /// <summary> ゲーム開始時の初期化 </summary>
     public void InitializeToStart()
     {
         _isInGame = true;
-        _totalScore = 0;
+        _currentTotalScore = 0;
         _inGameTimer = _timeLimit;
+        _finishedCakeDatas.Clear();
     }
 
     private void Update()
@@ -27,18 +31,37 @@ public class InGameManager : SingletonMonoBehavior<InGameManager>
         {
             _isInGame = false;
             _inGameTimer = 0;
-            // to end game use _totalScore
+            GameStateMachine.Instance.ChangeNextState(GamePhase.EndGame);
         }
     }
 
-    public void AddJudgeScore(int score)
+    public void AddCookedScore(int score)
     {
-        _totalScore += _colorScore;
-        _totalScore += score;
+        _currentTotalScore += score;
     }
 
-    public void AddColorScore(int score)
+    public void AddColorScore(int score, Color cakeColor)
     {
-        _colorScore = score;
+        _currentTotalScore = score;
+        _currentColor = cakeColor;
+    }
+
+    /// <summary> judge時にケーキデータを確定、保存 </summary>
+    public CakeData SaveFinishedCake()
+    {
+        _finishedCakeDatas.Add(new CakeData(_currentColor, _currentTotalScore));
+        return _finishedCakeDatas[_finishedCakeDatas.Count - 1];
+    }
+
+    public class CakeData
+    {
+        public Color Color;
+        public int Price;
+
+        public CakeData(Color color, int price)
+        {
+            this.Color = color;
+            Price = price;
+        }
     }
 }
