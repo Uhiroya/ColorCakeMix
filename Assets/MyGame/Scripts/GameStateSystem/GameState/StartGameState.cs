@@ -27,7 +27,7 @@ public class StartGameState : GameStateBase
         {
             if (Input.GetMouseButtonDown(0))
             {
-                GameStateMachine.Instance.ChangeNextState(GamePhase.Title);
+                GameStateMachine.Instance.ChangeNextState(GamePhase.Order);
             }
         }
     }
@@ -36,6 +36,7 @@ public class StartGameState : GameStateBase
     {
         _ct = default;
         _startUI.gameObject.SetActive(false);
-        
+        BackGroundController.Instance.Display(false);   //  背景削除
+        InGameManager.Instance.InitializeToStart();
     }
 }
