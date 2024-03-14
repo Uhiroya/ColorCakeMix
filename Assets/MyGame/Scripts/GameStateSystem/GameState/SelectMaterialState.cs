@@ -9,12 +9,15 @@ using ColorUtility = Takechi.ColorUtility;
 /// </summary>
 public class SelectMaterialState : GameStateBase
 {
-    [SerializeField] private HotCakeView _cakeView;
+    [SerializeField] private GameObject _materialPanel;
+    
+    private HotCakeView _cakeView = new();
     private CancellationToken _ct;
 
     public override void OnEnter(CancellationToken ct)
     {
         _ct = ct;
+        _materialPanel.SetActive(true);
         SelectColorAsync();
         JudgeMaterial();
         GameStateMachine.Instance.ChangeNextState(GamePhase.Cook);
@@ -26,6 +29,7 @@ public class SelectMaterialState : GameStateBase
 
     public override void OnExit()
     {
+        _materialPanel.SetActive(false);
         _cakeView.Color1 = ColorManager.Instance.SelectMaterials[0];
         _cakeView.Color2 = ColorManager.Instance.SelectMaterials[1];
         _cakeView.Color3 = ColorManager.Instance.SelectMaterials[2];
