@@ -16,7 +16,6 @@ public class ResultState : GameStateBase
     
     public override void OnEnter(CancellationToken ct)
     {
-        Debug.Log("result enter");
         _resultPanel.SetActive(true);
         int totalPrice = 0;
 
@@ -31,7 +30,7 @@ public class ResultState : GameStateBase
 
     public override void OnUpdate(float deltaTime)
     {
-        if (Input.GetKeyDown(KeyCode.KeypadEnter))
+        if (Input.GetMouseButtonDown(0))
         {
             GameStateMachine.Instance.ChangeNextState(GamePhase.Title);
         }
@@ -39,6 +38,6 @@ public class ResultState : GameStateBase
 
     public override void OnExit()
     {
-
+        _resultPanel.SetActive(false);
     }
 }
