@@ -301,6 +301,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _timeLimit: 60
+  _timerText: {fileID: 0}
 --- !u!1 &7493146505484631645
 GameObject:
   m_ObjectHideFlags: 0
@@ -480,8 +481,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _resultPanel: {fileID: 5138409550862907040}
   _cakeLayoutGroup: {fileID: 5040665416314941070}
-  _resultCakePrefab: {fileID: 0}
-  _totalPriceText: {fileID: 0}
+  _resultCakePrefab: {fileID: -7726769418028688351, guid: 76c37942e94ac994fa0baa1d2ea5a6f7, type: 3}
+  _totalPriceText: {fileID: 1332141138719731560}
 --- !u!1001 &7283305024608317872
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -753,6 +754,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8449984537352653307, guid: dadfbf33d6f551e43ab915f2bcedb0bb, type: 3}
   m_PrefabInstance: {fileID: 7283305024608317872}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1332141138719731560 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8606317427099852504, guid: dadfbf33d6f551e43ab915f2bcedb0bb, type: 3}
+  m_PrefabInstance: {fileID: 7283305024608317872}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1334325529896358262 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8617363744423256262, guid: dadfbf33d6f551e43ab915f2bcedb0bb, type: 3}
