@@ -84,7 +84,7 @@ public class BatterManager : MonoBehaviour
         }
 
         ResetParam();
-        if (InGameManager.Instance) InGameManager.Instance.AddCookedScore((int)(_baseScore - bakeScore * 50));
+        if (InGameManager.Instance) InGameManager.Instance.AddCookedScore((int)(_baseScore - Mathf.Abs(bakeScore) * 50));
     }
 
     void ResetParam()
