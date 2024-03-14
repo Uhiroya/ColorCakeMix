@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5334c5aca26b68740b20595761640efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _image: {fileID: 4712797037328606621, guid: 6ecdc13d314009941b51e07535cd76a7, type: 3}
+  _image: {fileID: 5581289401965735523, guid: d2d7cda50cc6ddb4fb297285e8442ba6, type: 3}
   _powderPrefabs:
   - {fileID: 0}
   - {fileID: 0}

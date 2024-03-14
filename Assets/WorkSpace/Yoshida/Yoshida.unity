@@ -2079,10 +2079,6 @@ PrefabInstance:
       value: ColorManager
       objectReference: {fileID: 0}
     - target: {fileID: 1937491353597793296, guid: 1da406032ed57034dbf2bea1b9d6db2d, type: 3}
-      propertyPath: _image
-      value: 
-      objectReference: {fileID: 5581289401965735523, guid: d2d7cda50cc6ddb4fb297285e8442ba6, type: 3}
-    - target: {fileID: 1937491353597793296, guid: 1da406032ed57034dbf2bea1b9d6db2d, type: 3}
       propertyPath: _powderPrefabs.Array.data[0]
       value: 
       objectReference: {fileID: 3173139811762289279}
