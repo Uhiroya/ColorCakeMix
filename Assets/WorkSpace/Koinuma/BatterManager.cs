@@ -26,6 +26,7 @@ public class BatterManager : MonoBehaviour
     private float _bakingTimer;
     private float _overTime = 10;
     private float _amountMixed;
+    private Vector3 _bestTimeingAreaPosDiff;
     
     /// <summary> 現在フレームの回転量 </summary>
     public float CurrentAmountRotation { get; private set; }
@@ -38,8 +39,9 @@ public class BatterManager : MonoBehaviour
         _maxBestTiming = _minBestTiming + bestTimingRange;
         _timerGauge.fillAmount = 0;
         _bestTimingAreaImage.fillAmount = bestTimingRange / (_maxBestTiming + _overTime);
-        _bestTimingAreaImage.rectTransform.position -= 
-            _bestTimingAreaImage.rectTransform.rect.width * _overTime / (_maxBestTiming + _overTime) * Vector3.right;
+        _bestTimeingAreaPosDiff = _bestTimingAreaImage.rectTransform.rect.width * _overTime / (_maxBestTiming + _overTime) * Vector3.right;
+        _bestTimingAreaImage.rectTransform.position -= _bestTimeingAreaPosDiff;
+        _batterRotater.Initialize();
     }
     
     public void BakingUpdate(float deltaTime)
@@ -72,7 +74,17 @@ public class BatterManager : MonoBehaviour
         {
             bakeScore = _bakingTimer - _maxBestTiming;
         }
-        
+
+        ResetParam();
         if (InGameManager.Instance) InGameManager.Instance.AddCookedScore((int)(_baseScore - bakeScore * 50));
+    }
+
+    void ResetParam()
+    {
+        _bestTimingAreaImage.rectTransform.position += _bestTimeingAreaPosDiff;
+        _amountMixSlider.value = 0;
+        _timerGauge.fillAmount = 0;
+        _bakingTimer = 0;
+        _amountMixed = 0;
     }
 }
