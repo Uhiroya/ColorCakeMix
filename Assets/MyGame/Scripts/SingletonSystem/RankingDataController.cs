@@ -24,36 +24,41 @@ public class RankingDataController : MonoBehaviour
     private int _currentScore;
     #region 公開箇所
 
-    public void ResultEnter()
+    public void ResultEnter(int score)
     {
-        _currentScore = 10000;
+        _currentScore = score;
         _rankingSendUI.SetActive(true);
         dataButton.onClick.AddListener(RegisterLister);
     }
     public void ResultExit()
+    {
+        dataButton.onClick.RemoveListener(RegisterLister);
+        _rankingSendUI.SetActive(false);
+    }
+    void RegisterLister()
+    {
+        StartCoroutine(PostData());
+    }
+    #endregion
+
+    
+    #region Unity公開箇所
+
+
+    public void MakeRanking()
+    {
+        _ = GetData();
+    }
+
+    public void RemoveRanking()
     {
         //生成したランキングテキストオブジェクトをリセットする
         foreach (Transform child in _rankingParent)
         {
             Destroy(child.gameObject);
         }
-        dataButton.onClick.RemoveListener(RegisterLister);
-        _rankingSendUI.SetActive(false);
     }
-
-    #endregion
-
     
-    #region Unity公開箇所
-
-    void RegisterLister()
-    {
-        StartCoroutine(PostData());
-    }
-    public void MakeRanking()
-    {
-        _ = GetData();
-    }
     #endregion
 
     public async UniTask GetData()
