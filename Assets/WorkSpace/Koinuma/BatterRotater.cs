@@ -7,6 +7,7 @@ using Vector3 = UnityEngine.Vector3;
 public class BatterRotater : MonoBehaviour
 {
     [SerializeField] private float _rotateSpeed = 1;
+    [SerializeField, Tooltip("自動で混ぜられる速度")] private float _defaultMixSpeed;
     [SerializeField] private float _scaleUpSpeed = 1;
     [SerializeField] private float _scaleDownSpeed;
     [SerializeField] private float _minScale;
@@ -20,14 +21,13 @@ public class BatterRotater : MonoBehaviour
     public float BatterRotate(float deltaTime)
     {
         Vector2 mousePos = Input.mousePosition - transform.position;
-        float rotateRadFromLast = 0;
+        float rotateRadFromLast = _defaultMixSpeed * deltaTime;
 
         if (Input.GetMouseButton(0))
         {
             Vector2 angleFromLast = Rotate(mousePos, _lastRotateRad);
-            rotateRadFromLast = Mathf.Atan2(angleFromLast.x, angleFromLast.y);
+            rotateRadFromLast += Mathf.Atan2(angleFromLast.x, angleFromLast.y);
             _currentScale += Mathf.Clamp(rotateRadFromLast, 0, rotateRadFromLast) * 0.02f * _scaleUpSpeed;
-            _batterImageObj.transform.Rotate(Vector3.forward, -Mathf.Clamp(rotateRadFromLast, 0, rotateRadFromLast) * _rotateSpeed);
 
             if (_angleText)
             {
@@ -40,6 +40,7 @@ public class BatterRotater : MonoBehaviour
         _currentScale -= _scaleDownSpeed * deltaTime;
         _currentScale = Mathf.Clamp(_currentScale, _minScale, _maxScale);
         _batterImageObj.transform.localScale = Vector3.one * _currentScale;
+        _batterImageObj.transform.Rotate(Vector3.forward, -Mathf.Clamp(rotateRadFromLast, 0, rotateRadFromLast) * _rotateSpeed);
 
         return rotateRadFromLast;
     }

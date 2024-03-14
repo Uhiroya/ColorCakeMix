@@ -14,6 +14,7 @@ public class BatterManager : MonoBehaviour
     [SerializeField] private BatterRotater _batterRotater;
     [SerializeField] private Image _timerGauge;
     [SerializeField] private Image _bestTimingAreaImage;
+    [SerializeField] private Slider _amountMixSlider;
     [Space(10)]
     [SerializeField] private Text _amountMixedText;
 
@@ -24,6 +25,9 @@ public class BatterManager : MonoBehaviour
     private float _bakingTimer;
     private float _overTime = 5;
     private float _amountMixed;
+    
+    /// <summary> 現在フレームの回転量 </summary>
+    public float CurrentAmountRotation { get; private set; }
 
     private void Awake()
     {
@@ -44,13 +48,15 @@ public class BatterManager : MonoBehaviour
     private void Update()
     {
         _bakingTimer += Time.deltaTime;
-        _amountMixed += _batterRotater.BatterRotate(Time.deltaTime);
+        CurrentAmountRotation = _batterRotater.BatterRotate(Time.deltaTime);
+        _amountMixed += CurrentAmountRotation;
         if (_amountMixedText) _amountMixedText.text = _amountMixed.ToString("0.00");
         
         // ui
         _timerGauge.fillAmount = _bakingTimer / (_maxBestTiming + _overTime);
+        _amountMixSlider.value = _amountMixed / _finishAmountRotation;
 
-        if (_amountMixed >= _finishAmountRotation)
+        if (_amountMixed >= _finishAmountRotation || _bakingTimer >= _maxBestTiming + _overTime)
         {
             // switch state でOnExitを呼び出す
             OnExit();
@@ -71,6 +77,6 @@ public class BatterManager : MonoBehaviour
             bakeScore = _bakingTimer - _maxBestTiming;
         }
         
-        InGameManager.Instance.AddJudgeScore((int)(_baseScore - bakeScore));
+        if (InGameManager.Instance) InGameManager.Instance.AddJudgeScore((int)(_baseScore - bakeScore));
     }
 }
