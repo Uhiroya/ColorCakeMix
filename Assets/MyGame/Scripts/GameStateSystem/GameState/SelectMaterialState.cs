@@ -19,8 +19,6 @@ public class SelectMaterialState : GameStateBase
         _ct = ct;
         _materialPanel.SetActive(true);
         SelectColorAsync();
-        JudgeMaterial();
-        GameStateMachine.Instance.ChangeNextState(GamePhase.Cook);
     }
 
     public override void OnUpdate(float deltaTime)
@@ -42,6 +40,8 @@ public class SelectMaterialState : GameStateBase
         const int selectColorLimit = 3;
         await UniTask.WaitUntil(() => selectColorLimit <= ColorManager.Instance.SelectMaterials.Count,
             cancellationToken: _ct);
+        JudgeMaterial();
+        GameStateMachine.Instance.ChangeNextState(GamePhase.Cook);
     }
 
     private void JudgeMaterial()
