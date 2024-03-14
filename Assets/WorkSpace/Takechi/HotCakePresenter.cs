@@ -7,6 +7,7 @@ public class HotCakePresenter : MonoBehaviour
 
     private void Update()
     {
-        _hotCakeView.RotateSpeed = Mathf.Abs(_batterManager.CurrentAmountRotation);
+        _hotCakeView.RotateSpeed = Mathf.Clamp(Mathf.Abs(_batterManager.CurrentAmountRotation) * 10,0 ,1);
+        _hotCakeView.RotateAngle = 10 + Mathf.Abs(_batterManager.CurrentAmountRotation) * 100f;
     }
 }
