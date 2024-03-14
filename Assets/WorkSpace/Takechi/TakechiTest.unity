@@ -467,7 +467,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7794639521015652310, guid: 6eb1a73064b37d74eb9211d74a616f51, type: 3}
       propertyPath: m_Name
-      value: Canvas
+      value: BakingUI
       objectReference: {fileID: 0}
     - target: {fileID: 8887680488272658716, guid: 6eb1a73064b37d74eb9211d74a616f51, type: 3}
       propertyPath: m_AnchorMax.y
