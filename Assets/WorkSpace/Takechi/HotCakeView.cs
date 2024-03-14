@@ -36,6 +36,24 @@ public class HotCakeView : MonoBehaviour
         set => _rotateAngle.Value = value;
     }
 
+    public Color Color1
+    {
+        set => _color1.Value = value;
+    }
+    public Color Color2
+    {
+        set => _color2.Value = value;
+    }
+    public Color Color3
+    {
+        set => _color3.Value = value;
+    }
+    /// <summary>進行状況(0~1)</summary>
+    public float Progress
+    {
+        set => _progress = Mathf.Clamp(value, 0, 1);
+    }
+
     private void Awake()
     {
         //  _circleに付いているmaterialを元に新しくインスタンスを作り割り当てる。
