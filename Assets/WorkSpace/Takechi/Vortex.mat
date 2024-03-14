@@ -140,15 +140,15 @@ Material:
     - _UVSec: 0
     - _UseUIAlphaClip: 0
     - _Vortex_Speed: 2
-    - _Vortex_Strength: 16.44
+    - _Vortex_Strength: 20
     - _ZWrite: 0
     m_Colors:
     - _CameraFadeParams: {r: 0, g: Infinity, b: 0, a: 0}
     - _Color: {r: 0.8435104, g: 1, b: 0, a: 1}
     - _ColorAddSubDiff: {r: 1, g: 0, b: 0, a: 0}
-    - _Color_1: {r: 0, g: 1, b: 0, a: 1}
-    - _Color_2: {r: 0, g: 0, b: 1, a: 0}
-    - _Color_3: {r: 1, g: 0, b: 0, a: 0}
+    - _Color_1: {r: 1, g: 1, b: 1, a: 1}
+    - _Color_2: {r: 1, g: 1, b: 1, a: 0}
+    - _Color_3: {r: 1, g: 1, b: 1, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SoftParticleFadeParams: {r: 0, g: 0, b: 0, a: 0}
     - _Specular: {r: 0, g: 0, b: 0, a: 0}

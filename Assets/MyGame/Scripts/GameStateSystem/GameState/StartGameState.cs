@@ -6,7 +6,7 @@ public class StartGameState : GameStateBase
 {
     [SerializeField] private CanvasGroup _startUI; 
     [SerializeField] private Vector2 _backGroundUVSpeed;
-    private bool flag;
+    private bool _flag;
     private CancellationToken _ct;
 
     public override async void OnEnter(CancellationToken ct)
@@ -14,15 +14,16 @@ public class StartGameState : GameStateBase
         _ct = ct;
         _startUI.gameObject.SetActive(true);
         BackGroundController.Instance.SetUVSpeed(_backGroundUVSpeed);
-        flag = false;
+        
+        _flag = false;
         await UniTask.Delay(1000, DelayType.Realtime, PlayerLoopTiming.Update, _ct);
-        flag = true;
+        _flag = true;
     }
 
     public override void OnUpdate(float deltaTime)
     {
         BackGroundController.Instance.ManualUpdate(deltaTime);
-        if (flag)
+        if (_flag)
         {
             if (Input.GetMouseButtonDown(0))
             {
