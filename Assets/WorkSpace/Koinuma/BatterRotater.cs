@@ -1,4 +1,3 @@
-using System;
 using System.Numerics;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,28 +17,31 @@ public class BatterRotater : MonoBehaviour
     private float _currentScale = 1;
     private float _lastRotateRad;
 
-    void Update()
+    public float BatterRotate(float deltaTime)
     {
         Vector2 mousePos = Input.mousePosition - transform.position;
+        float rotateRadFromLast = 0;
 
         if (Input.GetMouseButton(0))
         {
             Vector2 angleFromLast = Rotate(mousePos, _lastRotateRad);
-            float rotateRadFromLast = Mathf.Atan2(angleFromLast.x, angleFromLast.y);
-            _currentScale += Mathf.Abs(rotateRadFromLast) * 0.02f * _scaleUpSpeed;
-            _batterImageObj.transform.Rotate(Vector3.forward, -rotateRadFromLast * _rotateSpeed);
+            rotateRadFromLast = Mathf.Atan2(angleFromLast.x, angleFromLast.y);
+            _currentScale += Mathf.Clamp(rotateRadFromLast, 0, rotateRadFromLast) * 0.02f * _scaleUpSpeed;
+            _batterImageObj.transform.Rotate(Vector3.forward, -Mathf.Clamp(rotateRadFromLast, 0, rotateRadFromLast) * _rotateSpeed);
 
             if (_angleText)
             {
                 _angleText.text = (rotateRadFromLast * 100).ToString();
                 _angleText.color = (rotateRadFromLast > 0)? Color.red : Color.blue;
-            } 
+            }
         }
 
         _lastRotateRad = Mathf.Atan2(mousePos.x, mousePos.y);
-        _currentScale -= _scaleDownSpeed * Time.deltaTime;
+        _currentScale -= _scaleDownSpeed * deltaTime;
         _currentScale = Mathf.Clamp(_currentScale, _minScale, _maxScale);
         _batterImageObj.transform.localScale = Vector3.one * _currentScale;
+
+        return rotateRadFromLast;
     }
     
     private static Vector2 Rotate(Vector2 from, float angleRad)
