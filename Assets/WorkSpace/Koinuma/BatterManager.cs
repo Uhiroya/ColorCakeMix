@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
@@ -18,23 +19,19 @@ public class BatterManager : MonoBehaviour
     [Space(10)]
     [SerializeField] private Text _amountMixedText;
 
-    /// <summary> Score減点計算のBase </summary>
-    private float _baseScore = 10;
+    /// <summary> Score減点計算のBase満点 </summary>
+    private float _baseScore = 500;
     private float _minBestTiming;
     private float _maxBestTiming;
     private float _bakingTimer;
-    private float _overTime = 5;
+    private float _overTime = 10;
     private float _amountMixed;
     
     /// <summary> 現在フレームの回転量 </summary>
     public float CurrentAmountRotation { get; private set; }
+    public event Action FinishAction;
 
-    private void Awake()
-    {
-        OnEnter();
-    }
-
-    private void OnEnter()
+    public void InitializeRandomValue()
     {
         _minBestTiming = Random.Range(_minBakingBestTime, _maxBakingBestTime);
         float bestTimingRange = Random.Range(_minLengthBestTiming, _maxLengthBestTiming);
@@ -45,10 +42,10 @@ public class BatterManager : MonoBehaviour
             _bestTimingAreaImage.rectTransform.rect.width * _overTime / (_maxBestTiming + _overTime) * Vector3.right;
     }
     
-    private void Update()
+    public void BakingUpdate(float deltaTime)
     {
-        _bakingTimer += Time.deltaTime;
-        CurrentAmountRotation = _batterRotater.BatterRotate(Time.deltaTime);
+        _bakingTimer += deltaTime;
+        CurrentAmountRotation = _batterRotater.BatterRotate(deltaTime);
         _amountMixed += CurrentAmountRotation;
         if (_amountMixedText) _amountMixedText.text = _amountMixed.ToString("0.00");
         
@@ -58,13 +55,12 @@ public class BatterManager : MonoBehaviour
 
         if (_amountMixed >= _finishAmountRotation || _bakingTimer >= _maxBestTiming + _overTime)
         {
-            // switch state でOnExitを呼び出す
-            OnExit();
+            FinishAction?.Invoke();
         }
     }
 
     /// <summary> cook終了スコア加算 </summary>
-    public void OnExit()
+    public void CalcCookedScore()
     {
         float bakeScore = 0;
 
@@ -77,6 +73,6 @@ public class BatterManager : MonoBehaviour
             bakeScore = _bakingTimer - _maxBestTiming;
         }
         
-        if (InGameManager.Instance) InGameManager.Instance.AddJudgeScore((int)(_baseScore - bakeScore));
+        if (InGameManager.Instance) InGameManager.Instance.AddCookedScore((int)(_baseScore - bakeScore * 50));
     }
 }
