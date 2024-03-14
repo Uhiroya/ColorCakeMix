@@ -7,9 +7,8 @@ public class ColorManager : SingletonMonoBehavior<ColorManager>
     [SerializeField] private Image _image;
     [SerializeField] private GameObject[] _powderPrefabs;
 
-    const int _orderColorCount = 3;
-    private Queue<int> _choiceMaterials;
-
+    private const int _orderColorCount = 3;
+    
     private readonly List<Color> _colorList = new()
     {
         new Color(215, 69, 57),
@@ -27,21 +26,27 @@ public class ColorManager : SingletonMonoBehavior<ColorManager>
     public void DecisionOrderColor()
     {
         var orderList = _colorList;
-        var listIndexCount = orderList.Count;
-        Color colorSum = default;
+        var r = 0f;
+        var g = 0f;
+        var b = 0f;
         for (var i = 0; i < _orderColorCount; i++)
         {
-            var random = Random.Range(0, listIndexCount);
-            colorSum += _colorList[random];
-            _colorList.RemoveAt(random);
+            var random = Random.Range(0, orderList.Count - 1);
+            var co = orderList[random];
+            Debug.Log($"AnsIndex {random}");
+            r += co.r;
+            g += co.g;
+            b += co.b;
+            orderList.RemoveAt(random);
         }
 
-        OrderColor = colorSum / 3;
+        var col = new Color((r / 3 / 255), (g / 3 / 255), (b / 3 / 255), 1);
+        OrderColor = col;
+        _image.color = col;
     }
 
     public void SelectMaterial(int number)
     {
         SelectMaterials.Add(_colorList[number]);
-        Debug.Log($"{number} : {_colorList[number]}");
     }
 }
