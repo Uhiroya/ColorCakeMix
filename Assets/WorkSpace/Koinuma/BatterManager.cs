@@ -18,6 +18,7 @@ public class BatterManager : MonoBehaviour
     [SerializeField] private Slider _amountMixSlider;
     [Space(10)]
     [SerializeField] private Text _amountMixedText;
+    [SerializeField] private HotCakeView _hotCakeView;
 
     /// <summary> Score減点計算のBase満点 </summary>
     private float _baseScore = 500;
@@ -32,6 +33,11 @@ public class BatterManager : MonoBehaviour
     public float CurrentAmountRotation { get; private set; }
     public event Action FinishAction;
 
+    public void InitializeParameter()
+    {
+        _amountMixed = 0;
+        _bakingTimer = 0;
+    }
     public void InitializeRandomValue()
     {
         _minBestTiming = Random.Range(_minBakingBestTime, _maxBakingBestTime);
@@ -54,10 +60,12 @@ public class BatterManager : MonoBehaviour
         // ui
         _timerGauge.fillAmount = _bakingTimer / (_maxBestTiming + _overTime);
         _amountMixSlider.value = _amountMixed / _finishAmountRotation;
+        _hotCakeView.Progress = _amountMixed / _finishAmountRotation;   //  _amountMixedの値からシェーダーの混ざり具合を調整する
 
         if (_amountMixed >= _finishAmountRotation || _bakingTimer >= _maxBestTiming + _overTime)
         {
             FinishAction?.Invoke();
+            _hotCakeView.Progress = 1f; //  強制的にシェーダーを混ぜ終わらせる。
         }
     }
 

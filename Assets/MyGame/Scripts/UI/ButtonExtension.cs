@@ -13,7 +13,6 @@ public class ButtonExtension : MonoBehaviour
     void Start()
     {
         Button button = GetComponent<Button>();
-        button.OnMouseOverAsObservable().Subscribe(_ => MouseOverSe()).AddTo(this);
         button.onClick.AddListener(ClickButton);
     }
 

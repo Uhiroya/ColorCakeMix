@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,7 +15,12 @@ public class JudgeState : GameStateBase
     
     private CancellationToken _ct;
     private float _judgeTimer;
-    
+
+    private void Awake()
+    {
+        _judgePanel.SetActive(false);
+    }
+
     public override void OnEnter(CancellationToken ct)
     {
         _judgeTimer = 0;
