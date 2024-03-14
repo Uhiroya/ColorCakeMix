@@ -18,6 +18,11 @@ public class BatterRotater : MonoBehaviour
     private float _currentScale = 1;
     private float _lastRotateRad;
 
+    public void Initialize()
+    {
+        _batterImageObj.transform.localScale = Vector3.one;
+    }
+    
     public float BatterRotate(float deltaTime)
     {
         Vector2 mousePos = Input.mousePosition - transform.position;
