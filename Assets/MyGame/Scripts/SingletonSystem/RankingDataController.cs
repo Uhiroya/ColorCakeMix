@@ -12,23 +12,40 @@ public class RankingDataController : MonoBehaviour
 {
     [SerializeField] private Transform _rankingParent;
     [SerializeField] private GameObject _rankingTextPrefab;
+    [SerializeField] private GameObject _rankingSendUI;
     [SerializeField] Button dataButton;　//追加
     [SerializeField] InputField nameField; //追加
-
+    
     private const string URL = "https://docs.google.com/spreadsheets/d/1StuGiDa9z08HEDhna7L1oTaUmi1LGXtgf9mnA3RUhV8/gviz/tq?tqx=out:csv&sheet=test";
     private const string GasUrl = "https://script.google.com/macros/s/AKfycbw2P3Ia7tHq9dbtaDZhpqeoVGJw7bpFxTxj9lHGE1lWWBieShhU7KNRhUIN-z-8F0Fadw/exec";  //追加（最初は空っぽ）
 
     private List<SendData> _rankingList;
 
-    #region Unity公開箇所
+    private int _currentScore;
+    #region 公開箇所
+
     public void ResultEnter()
     {
+        _currentScore = 10000;
+        _rankingSendUI.SetActive(true);
         dataButton.onClick.AddListener(RegisterLister);
     }
     public void ResultExit()
     {
+        //生成したランキングテキストオブジェクトをリセットする
+        foreach (Transform child in _rankingParent)
+        {
+            Destroy(child.gameObject);
+        }
         dataButton.onClick.RemoveListener(RegisterLister);
+        _rankingSendUI.SetActive(false);
     }
+
+    #endregion
+
+    
+    #region Unity公開箇所
+
     void RegisterLister()
     {
         StartCoroutine(PostData());
@@ -85,17 +102,17 @@ public class RankingDataController : MonoBehaviour
         
         //それぞれのInputFieldから情報を取得
         string nameText = nameField.text;
-        int score = 1000;
-        string sendTime = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
+        
+        string sendTime = DateTime.Now.ToString("HH:mm:ss");
         //値が空の場合は処理を中断
         if(string.IsNullOrEmpty(nameText))
         {
-            Debug.Log("empty!");
+            Debug.Log("名前が入力されなかったので送信しませんでした!");
             yield break;
         }
         
         //それぞれの値をカンマ区切りでcombinedText変数に代入
-        string combinedText = string.Join(",", nameText, score , sendTime);
+        string combinedText = string.Join(",", nameText, _currentScore.ToString() , sendTime);
         
         //formにPostする情報をvalというキー、値はcombinedTextで追加する
         form.AddField("val", combinedText);
