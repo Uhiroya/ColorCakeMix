@@ -20,7 +20,7 @@ public class BatterRotater : MonoBehaviour
 
     public void Initialize()
     {
-        _batterImageObj.transform.localScale = Vector3.one;
+        _currentScale = 1;
     }
 
     public float CurrentRotateSpeed;
