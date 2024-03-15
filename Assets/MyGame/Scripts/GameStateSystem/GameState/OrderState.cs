@@ -18,7 +18,7 @@ public class OrderState : GameStateBase
 
     private void Awake()
     {
-        _customer.gameObject.SetActive(false);
+        _customerText.gameObject.SetActive(false);
     }
 
     public override async void OnEnter(CancellationToken ct)

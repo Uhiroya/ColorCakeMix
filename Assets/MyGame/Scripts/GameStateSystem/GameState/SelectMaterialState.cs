@@ -47,7 +47,7 @@ public class SelectMaterialState : GameStateBase
         _cakeView.Color1 = ColorManager.Instance.SelectMaterials[0];
         _cakeView.Color2 = ColorManager.Instance.SelectMaterials[1];
         _cakeView.Color3 = ColorManager.Instance.SelectMaterials[2];
-        //AudioManager.Instance.PlaySe(SeType.CookStart);
+        AudioManager.Instance.PlaySe(SeType.CookStart);
         ColorManager.Instance.SelectMaterials.Clear();
     }
 
