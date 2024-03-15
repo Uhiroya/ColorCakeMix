@@ -12,11 +12,11 @@ using ColorUtility = Takechi.ColorUtility;
 public class SelectMaterialState : GameStateBase
 {
     [SerializeField] private GameObject _materialPanel;
-    [SerializeField] Text _selectMaterialText;
-    [SerializeField] Text _gotoCookText;
+    [SerializeField] private Text _selectMaterialText;
+    [SerializeField] private Text _gotoCookText;
     [SerializeField] float _cookTextWaitTime;
     [SerializeField] private HotCakeView _cakeView;
-    [SerializeField, Tooltip("Score減点計算のBase満点")] float _baseScore = 500;
+    [SerializeField, Tooltip("Score減点計算のBase満点")] private float _baseScore = 500;
     [SerializeField, Tooltip("減点用のスコアの乗数")] private float _colorScoreMultiplier = 5f;
     
     private CancellationToken _ct;

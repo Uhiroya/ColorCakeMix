@@ -3,18 +3,29 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// 注文フェーズ
 /// </summary>
 public class OrderState : GameStateBase
 {
+    [SerializeField] private Text _customerText;
     [SerializeField, Tooltip("客の画像")] private RectTransform _customer;
     [SerializeField, Tooltip("客の開始地点")] private float _startXPosition;
     [SerializeField, Tooltip("客がスライドし終わるまでの時間")] private float _duration;
     private CancellationToken _ct;
+
+    private void Awake()
+    {
+        _customer.gameObject.SetActive(false);
+    }
+
     public override async void OnEnter(CancellationToken ct)
     {
+        // 客入店テキスト表示
+        _customer.gameObject.SetActive(true);
+        
         AudioManager.Instance.PlayBGM(BGMType.InGame);
         AudioManager.Instance.PlaySe(SeType.Opening);
         AudioManager.Instance.PlaySe(SeType.DoorOpen);
@@ -46,6 +57,7 @@ public class OrderState : GameStateBase
 
     public override void OnExit()
     {
-
+        // 客入店テキスト非表示
+        _customer.gameObject.SetActive(false);
     }
 }
