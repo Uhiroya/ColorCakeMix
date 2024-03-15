@@ -36,10 +36,13 @@ public enum SeType
     TimeUp = 10,
     Result = 11,
     CookStart = 12,
+    DoorOpen = 13,
+    FootSteps = 14,
 }
 public enum BGMType
 {
     Title = 0, 
     InGame = 1, 
     Result = 2,
+    Cooking = 3
 }

@@ -988,13 +988,29 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2965145807447407656, guid: 5081b7bae9c8c814cabeb08d5a84b89c, type: 3}
+      propertyPath: _audioSeClips.Array.size
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 2965145807447407656, guid: 5081b7bae9c8c814cabeb08d5a84b89c, type: 3}
+      propertyPath: _audioSeClips.Array.data[12]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2965145807447407656, guid: 5081b7bae9c8c814cabeb08d5a84b89c, type: 3}
+      propertyPath: _audioSeClips.Array.data[13]
+      value: 
+      objectReference: {fileID: 8300000, guid: 2c3fba8b110dee04c981c078600b72bd, type: 3}
+    - target: {fileID: 2965145807447407656, guid: 5081b7bae9c8c814cabeb08d5a84b89c, type: 3}
+      propertyPath: _audioSeClips.Array.data[14]
+      value: 
+      objectReference: {fileID: 8300000, guid: a96f18b90efdbe94db80d605da227645, type: 3}
     - target: {fileID: 3050765118044666724, guid: 5081b7bae9c8c814cabeb08d5a84b89c, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3093589514282086625, guid: 5081b7bae9c8c814cabeb08d5a84b89c, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3494491266448358959, guid: 5081b7bae9c8c814cabeb08d5a84b89c, type: 3}
       propertyPath: _customer
@@ -1038,11 +1054,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5745591406633575771, guid: 5081b7bae9c8c814cabeb08d5a84b89c, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6340085320669664925, guid: 5081b7bae9c8c814cabeb08d5a84b89c, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6665967329879265447, guid: 5081b7bae9c8c814cabeb08d5a84b89c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size

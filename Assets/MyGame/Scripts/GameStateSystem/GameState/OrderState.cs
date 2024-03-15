@@ -16,6 +16,9 @@ public class OrderState : GameStateBase
     public override async void OnEnter(CancellationToken ct)
     {
         AudioManager.Instance.PlayBGM(BGMType.InGame);
+        AudioManager.Instance.PlaySe(SeType.Opening);
+        AudioManager.Instance.PlaySe(SeType.DoorOpen);
+        AudioManager.Instance.PlaySe(SeType.FootSteps);
         //  オーダー作成
         ColorManager.Instance.DecisionOrderColor();
         //  客スライド
