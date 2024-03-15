@@ -28,6 +28,15 @@ public class JudgeState : GameStateBase
         InGameManager.CakeData judgeCakeData = InGameManager.Instance.SaveFinishedCake();
         _judgeCakeImage.color = judgeCakeData.Color;
         _judgePriceText.text = judgeCakeData.Price + "円";
+
+        if (judgeCakeData.Price >= 900)
+        {
+            AudioManager.Instance.PlaySe(SeType.Success);
+        }
+        else
+        {
+            AudioManager.Instance.PlaySe(SeType.Failure);
+        }
     }
 
     public override void OnUpdate(float deltaTime)

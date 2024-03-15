@@ -27,6 +27,8 @@ public class BatterManager : MonoBehaviour
     private float _bakingTimer;
     private float _overTime = 10;
     private float _amountMixed;
+    private float _nextMixSoundAmount;
+    private float _mixSoundRate = 6.28f; // 1周
     private Vector3 _bestTimeingAreaPosDiff;
     
     /// <summary> 現在フレームの回転量 </summary>
@@ -37,6 +39,7 @@ public class BatterManager : MonoBehaviour
     {
         _amountMixed = 0;
         _bakingTimer = 0;
+        _nextMixSoundAmount = 0;
     }
     public void InitializeRandomValue()
     {
@@ -66,6 +69,12 @@ public class BatterManager : MonoBehaviour
         {
             FinishAction?.Invoke();
             _hotCakeView.Progress = 1f; //  強制的にシェーダーを混ぜ終わらせる。
+        }
+
+        if (_nextMixSoundAmount > _amountMixed)
+        {
+            _nextMixSoundAmount += _mixSoundRate;
+            AudioManager.Instance.PlaySe(SeType.RotateCake);
         }
     }
 

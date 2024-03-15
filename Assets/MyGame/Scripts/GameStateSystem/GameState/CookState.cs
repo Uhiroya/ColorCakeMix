@@ -53,6 +53,7 @@ public class CookState : GameStateBase
     void OnFinishCook()
     {
         _isCooking = false;
+        AudioManager.Instance.PlaySe(SeType.FinishCook);
         GameStateMachine.Instance.ChangeNextState(GamePhase.Judge);
     }
 

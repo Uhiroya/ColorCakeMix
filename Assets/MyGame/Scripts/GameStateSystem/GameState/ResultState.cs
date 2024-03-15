@@ -26,6 +26,8 @@ public class ResultState : GameStateBase
         }
 
         _totalPriceText.text = totalPrice.ToString();
+        AudioManager.Instance.PlaySe(SeType.Result);
+        AudioManager.Instance.PlayBGM(BGMType.Result);
     }
 
     public override void OnUpdate(float deltaTime)
