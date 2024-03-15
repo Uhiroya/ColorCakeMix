@@ -22,16 +22,21 @@ public class BatterRotater : MonoBehaviour
     {
         _batterImageObj.transform.localScale = Vector3.one;
     }
+
+    public float CurrentRotateSpeed;
+    public float DefaultMixSpeed => _defaultMixSpeed;
     
     public float BatterRotate(float deltaTime)
     {
         Vector2 mousePos = Input.mousePosition - transform.position;
         float rotateRadFromLast = _defaultMixSpeed * deltaTime;
+        CurrentRotateSpeed = _defaultMixSpeed;
 
         if (Input.GetMouseButton(0))
         {
             Vector2 angleFromLast = Rotate(mousePos, _lastRotateRad);
             rotateRadFromLast += Mathf.Atan2(angleFromLast.x, angleFromLast.y);
+            CurrentRotateSpeed += Mathf.Atan2(angleFromLast.x, angleFromLast.y);
             _currentScale += Mathf.Clamp(rotateRadFromLast, 0, rotateRadFromLast) * 0.02f * _scaleUpSpeed;
 
             if (_angleText)
