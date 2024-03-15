@@ -11,6 +11,7 @@ public class ResultState : GameStateBase
     [SerializeField] private GameObject _cakeLayoutGroup;
     [SerializeField] private ResultCakeContller _resultCakePrefab;
     [SerializeField] private Text _totalPriceText;
+    [SerializeField] private GameObject _sendRankingUI;
     
     private CancellationToken _ct;
     
@@ -28,18 +29,24 @@ public class ResultState : GameStateBase
         _totalPriceText.text = totalPrice.ToString();
         AudioManager.Instance.PlaySe(SeType.Result);
         AudioManager.Instance.PlayBGM(BGMType.Result);
+        FindObjectOfType<RankingDataController>().ResultEnter(totalPrice);
+        _sendRankingUI.SetActive(true);
     }
 
     public override void OnUpdate(float deltaTime)
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            GameStateMachine.Instance.ChangeNextState(GamePhase.Title);
-        }
+        
+    }
+
+    public void ReturnTitle()
+    {
+        GameStateMachine.Instance.ChangeNextState(GamePhase.Title);
     }
 
     public override void OnExit()
     {
         _resultPanel.SetActive(false);
+        FindObjectOfType<RankingDataController>().ResultExit();
+        _sendRankingUI.SetActive(false);
     }
 }
