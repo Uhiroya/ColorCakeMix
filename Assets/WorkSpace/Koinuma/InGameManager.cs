@@ -1,9 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InGameManager : SingletonMonoBehavior<InGameManager>
 {
     [SerializeField] private float _timeLimit;
+    [SerializeField] private Text _timerText;
 
     private bool _isInGame;
     private float _inGameTimer;
@@ -26,24 +28,28 @@ public class InGameManager : SingletonMonoBehavior<InGameManager>
         if (!_isInGame) return;
         
         _inGameTimer -= Time.deltaTime;
+        if (_timerText) _timerText.text = ((int)_inGameTimer).ToString();
 
         if (_inGameTimer <= 0)
         {
             _isInGame = false;
             _inGameTimer = 0;
             GameStateMachine.Instance.ChangeNextState(GamePhase.EndGame);
+            Debug.Log("time over");
         }
     }
 
     public void AddCookedScore(int score)
     {
         _currentTotalScore += score;
+        Debug.Log("add cooked score");
     }
 
     public void AddColorScore(int score, Color cakeColor)
     {
         _currentTotalScore = score;
         _currentColor = cakeColor;
+        Debug.Log("add color score");
     }
 
     /// <summary> judge時にケーキデータを確定、保存 </summary>

@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -10,14 +12,22 @@ using ColorUtility = Takechi.ColorUtility;
 public class SelectMaterialState : GameStateBase
 {
     [SerializeField] private GameObject _materialPanel;
+    [SerializeField] private HotCakeView _cakeView;
+    [SerializeField, Tooltip("Score減点計算のBase満点")] float _baseScore = 500;
+    [SerializeField, Tooltip("減点用のスコアの乗数")] private float _colorScoreMultiplier = 5f;
     
-    private HotCakeView _cakeView = new();
     private CancellationToken _ct;
+
+    private void Awake()
+    {
+        _materialPanel.SetActive(false);
+    }
 
     public override void OnEnter(CancellationToken ct)
     {
         _ct = ct;
         _materialPanel.SetActive(true);
+        ColorManager.Instance.PowderPrefabs.ToList().ForEach(go=>go.SetActive(true));   //  色選択ボタンを全てアクティブにする
         SelectColorAsync();
     }
 
@@ -52,8 +62,9 @@ public class SelectMaterialState : GameStateBase
         {
             colorSum += color;
         }
-
-        var colorScore = ColorUtility.ColorDistance(colorManager.OrderColor, colorSum / 3);
+        colorSum /= 3f;
+        var colorScore = _baseScore - ColorUtility.ColorDistance(colorManager.OrderColor, colorSum) * _colorScoreMultiplier;
+        InGameManager.Instance.AddColorScore((int)colorScore, colorSum);
         Debug.Log($"ColorScore {colorScore}");
     }
 }

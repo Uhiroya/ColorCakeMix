@@ -1,4 +1,6 @@
+using System;
 using System.Threading;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 
@@ -11,16 +13,27 @@ public class OrderState : GameStateBase
     [SerializeField, Tooltip("客の開始地点")] private float _startXPosition;
     [SerializeField, Tooltip("客がスライドし終わるまでの時間")] private float _duration;
     private CancellationToken _ct;
-    public override void OnEnter(CancellationToken ct)
+    public override async void OnEnter(CancellationToken ct)
     {
+        AudioManager.Instance.PlayBGM(BGMType.InGame);
+        //  オーダー作成
+        ColorManager.Instance.DecisionOrderColor();
+        //  客スライド
         var pos = _customer.anchoredPosition;
         pos.x = _startXPosition;
         _customer.anchoredPosition = pos;
-        _customer.DOAnchorPosX(0, _duration)
-            .OnComplete(() =>
-            {
-                GameStateMachine.Instance.ChangeNextState(GamePhase.SelectMaterial);
-            }).SetLink(gameObject);
+        try
+        {
+            //  OnCompleteでステート遷移するとステート終了後でも動いてしまうのでcancellationTokenで止めるようにした
+            await _customer.DOAnchorPosX(0, _duration).ToUniTask(cancellationToken: ct);
+        }
+        catch (OperationCanceledException e)
+        {
+            Debug.Log(e);
+            throw;
+        }
+        GameStateMachine.Instance.ChangeNextState(GamePhase.SelectMaterial);
+        AudioManager.Instance.PlaySe(SeType.Order);
     }
 
     public override void OnUpdate(float deltaTime)
