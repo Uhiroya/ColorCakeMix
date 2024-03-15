@@ -34,6 +34,7 @@ public class InGameManager : SingletonMonoBehavior<InGameManager>
         {
             _isInGame = false;
             _inGameTimer = 0;
+            AudioManager.Instance.PlaySe(SeType.TimeUp);
             GameStateMachine.Instance.ChangeNextState(GamePhase.EndGame);
             Debug.Log("time over");
         }
