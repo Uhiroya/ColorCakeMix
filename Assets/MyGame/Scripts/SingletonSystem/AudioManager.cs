@@ -35,6 +35,7 @@ public enum SeType
     Failure = 9,
     TimeUp = 10,
     Result = 11,
+    CookStart = 12,
 }
 public enum BGMType
 {
