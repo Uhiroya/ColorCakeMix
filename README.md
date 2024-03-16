@@ -1,54 +1,31 @@
-# MyTemplete_Unity2022.2.5.f1
+# ColorCakeMix
 
-## 概要  
+## 概要
+<img width="480" alt="image" src="https://github.com/Uhiroya/ColorCakeMix/assets/72613038/8363a69d-0f40-417a-9275-0385d6d9307f">
 
-.gitignoreの細かい設定。(エディタ設定の除外、AssetStoreToolsの除外等)
 
-UnityからVS経由でコードを作成したときにShift-JISにならないように.editorconfigを追加してます。[参考](https://noracle.jp/unity_script_encode_issue/)
+[発表資料(遊び方説明)](https://docs.google.com/presentation/d/1dtYW1_vfb67pDrAHS0tUL5ZGVWShLAJLyQtCvWo4no0/edit#slide=id.g2c3080be67c_1_40)
 
-## ルール
+[マーベラス3dayゲームジャム](https://gamejam.marv.jp/)で得票数1位、優秀賞を頂いた作品です。
 
-#### 個人的な作業はブランチやフォルダを分けて行う。
+<img width="320" alt="image" src="https://github.com/Uhiroya/ColorCakeMix/assets/72613038/bda46016-9aac-4829-b97e-ee6d427261bc">
 
-(例)
-  
-ブランチ : WorkSpace/[自分の名前]
 
-フォルダ : Asset/WorkSpace/[自分の名前]
+## 開発スケジュール
+<img width="320" alt="image" src="https://github.com/Uhiroya/ColorCakeMix/assets/72613038/cb34ae60-32d8-4314-8b73-18a18a17c459">
 
-#### コーディング規約
-  
-基本的にUnityC#で利用されているメジャーなものを採用します。
 
-細かい注意個所としては
+## 担当個所
 
-- constはPascalCase
-- privateフィールド , [SerializeField] は先頭に"_"をつける
-- メソッド名は動詞から
-- イベントを起動させるメソッド(サブジェクト)には Onを先頭につける
+<img width="440" alt="image" src="https://github.com/Uhiroya/ColorCakeMix/assets/72613038/a97beec9-c8c8-4915-9c32-2505b6c8cf79">
 
-よくわからない方は、下記URL記事を参考にすると良いと思います。
 
-https://anderson02.com/cs/cs-rules/cs-rules01/
+## 開発ルール
+**下のテンプレートを参照**
 
-↑ C#のコーディングルールが詳しく書いています。 #01 ~ #12 をとりあえず読むのがおすすめです。
+https://github.com/Uhiroya/MyTemplete_Unity2022.2.5.f1
 
-https://blog.unity.com/ja/engine-platform/clean-up-your-code-how-to-create-your-own-c-code-style
 
-↑  「命名規則」 項目の
-> ~~変数（m_）、定数（k_）、静的変数（s_）に接頭辞をつける~~
-
-部分以外を参考にすると良いと思います。
-
-## 開発環境  
-
-Unity 2022.2.5.f1
-
-## 導入ライブラリ
-
-- UniTask
-- UniRx
-- DoTween
 
 
 
