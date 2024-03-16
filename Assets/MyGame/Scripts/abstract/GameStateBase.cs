@@ -7,9 +7,12 @@ using UnityEngine;
 public abstract class GameStateBase : MonoBehaviour
 {
     /// <summary>
-    /// 初期化処理、開始処理
+    /// 開始処理
     /// </summary>
-    /// <param name="ct"></param>
+    /// <param name="ct">
+    /// ステートが強制的に切り替わった際にキャンセルする処理、
+    /// 時間制限等で強引に止める時等
+    /// </param>
     public abstract void OnEnter(CancellationToken ct);
 
     /// <summary>
