@@ -301,6 +301,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _timeLimit: 60
+  _timerTextParent: {fileID: 0}
   _timerText: {fileID: 0}
 --- !u!1 &7493146505484631645
 GameObject:
@@ -407,6 +408,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39abd5a27d41e0a43a384472a9fde76d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _customerText: {fileID: 0}
   _customer: {fileID: 0}
   _startXPosition: 7
   _duration: 3
@@ -423,6 +425,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _materialPanel: {fileID: 3050765118044666724}
+  _selectMaterialText: {fileID: 0}
+  _gotoCookText: {fileID: 0}
+  _cookTextWaitTime: 0
   _cakeView: {fileID: 8032748832656720283}
   _baseScore: 500
   _colorScoreMultiplier: 5
@@ -484,6 +489,7 @@ MonoBehaviour:
   _cakeLayoutGroup: {fileID: 5040665416314941070}
   _resultCakePrefab: {fileID: -7726769418028688351, guid: 76c37942e94ac994fa0baa1d2ea5a6f7, type: 3}
   _totalPriceText: {fileID: 1332141138719731560}
+  _sendRankingUI: {fileID: 0}
 --- !u!1 &8306635438889069697
 GameObject:
   m_ObjectHideFlags: 0
@@ -827,11 +833,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3075694274788381931, guid: dadfbf33d6f551e43ab915f2bcedb0bb, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3670430770473183021, guid: dadfbf33d6f551e43ab915f2bcedb0bb, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4148161204399415575, guid: dadfbf33d6f551e43ab915f2bcedb0bb, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -911,7 +917,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5764005063696613713, guid: dadfbf33d6f551e43ab915f2bcedb0bb, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5925595036817965524, guid: dadfbf33d6f551e43ab915f2bcedb0bb, type: 3}
       propertyPath: m_AnchorMax.y

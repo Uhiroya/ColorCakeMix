@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class InGameManager : SingletonMonoBehavior<InGameManager>
 {
     [SerializeField] private float _timeLimit;
+    [SerializeField] private GameObject _timerTextParent;
     [SerializeField] private Text _timerText;
 
     private bool _isInGame;
@@ -21,6 +22,7 @@ public class InGameManager : SingletonMonoBehavior<InGameManager>
         _currentTotalScore = 0;
         _inGameTimer = _timeLimit;
         _finishedCakeDatas.Clear();
+        _timerTextParent.SetActive(true);
     }
 
     private void Update()
@@ -36,6 +38,7 @@ public class InGameManager : SingletonMonoBehavior<InGameManager>
             _inGameTimer = 0;
             AudioManager.Instance.PlaySe(SeType.TimeUp);
             GameStateMachine.Instance.ChangeNextState(GamePhase.EndGame);
+            _timerTextParent.SetActive(false);
             Debug.Log("time over");
         }
     }

@@ -21,7 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Vortex
-  m_Shader: {fileID: 4800000, guid: 8ac54cb3534671744be51f7c48470bc0, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: b5d13e8b15f731541b721dd3b76a67dd, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -146,9 +146,9 @@ Material:
     - _CameraFadeParams: {r: 0, g: Infinity, b: 0, a: 0}
     - _Color: {r: 0.8435104, g: 1, b: 0, a: 1}
     - _ColorAddSubDiff: {r: 1, g: 0, b: 0, a: 0}
-    - _Color_1: {r: 1, g: 1, b: 1, a: 1}
-    - _Color_2: {r: 1, g: 1, b: 1, a: 0}
-    - _Color_3: {r: 1, g: 1, b: 1, a: 0}
+    - _Color_1: {r: 1, g: 0, b: 0, a: 1}
+    - _Color_2: {r: 1, g: 1, b: 1, a: 1}
+    - _Color_3: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SoftParticleFadeParams: {r: 0, g: 0, b: 0, a: 0}
     - _Specular: {r: 0, g: 0, b: 0, a: 0}

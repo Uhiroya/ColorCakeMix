@@ -17,6 +17,7 @@ public class ResultState : GameStateBase
     
     public override void OnEnter(CancellationToken ct)
     {
+        BackGroundController.Instance.Display(true);
         _resultPanel.SetActive(true);
         int totalPrice = 0;
 
@@ -48,5 +49,9 @@ public class ResultState : GameStateBase
         _resultPanel.SetActive(false);
         FindObjectOfType<RankingDataController>().ResultExit();
         _sendRankingUI.SetActive(false);
+        foreach (Transform child in _cakeLayoutGroup.transform)
+        {
+            Destroy(child.gameObject);
+        }
     }
 }

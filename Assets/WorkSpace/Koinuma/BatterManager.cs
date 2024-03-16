@@ -29,7 +29,7 @@ public class BatterManager : MonoBehaviour
     private float _amountMixed;
     private float _nextMixSoundAmount;
     private float _mixSoundRate = 6.28f; // 1周
-    private Vector3 _bestTimeingAreaPosDiff;
+    private Vector2 _bestTimeingAreaPosDiff;
     
     /// <summary> 現在フレームの回転量 </summary>
     public float CurrentAmountRotation { get; private set; }
@@ -49,7 +49,7 @@ public class BatterManager : MonoBehaviour
         _timerGauge.fillAmount = 0;
         _bestTimingAreaImage.fillAmount = bestTimingRange / (_maxBestTiming + _overTime);
         _bestTimeingAreaPosDiff = _bestTimingAreaImage.rectTransform.rect.width * _overTime / (_maxBestTiming + _overTime) * Vector3.right;
-        _bestTimingAreaImage.rectTransform.position -= _bestTimeingAreaPosDiff;
+        _bestTimingAreaImage.rectTransform.anchoredPosition -= _bestTimeingAreaPosDiff;
         _batterRotater.Initialize();
     }
     
@@ -71,7 +71,7 @@ public class BatterManager : MonoBehaviour
             _hotCakeView.Progress = 1f; //  強制的にシェーダーを混ぜ終わらせる。
         }
 
-        if (_nextMixSoundAmount > _amountMixed)
+        if (_nextMixSoundAmount < _amountMixed)
         {
             _nextMixSoundAmount += _mixSoundRate;
             AudioManager.Instance.PlaySe(SeType.RotateCake);
@@ -98,7 +98,7 @@ public class BatterManager : MonoBehaviour
 
     void ResetParam()
     {
-        _bestTimingAreaImage.rectTransform.position += _bestTimeingAreaPosDiff;
+        _bestTimingAreaImage.rectTransform.anchoredPosition += _bestTimeingAreaPosDiff;
         _amountMixSlider.value = 0;
         _timerGauge.fillAmount = 0;
         _bakingTimer = 0;

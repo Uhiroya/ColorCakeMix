@@ -24,7 +24,7 @@ public class OrderState : GameStateBase
     public override async void OnEnter(CancellationToken ct)
     {
         // 客入店テキスト表示
-        _customer.gameObject.SetActive(true);
+        _customerText.gameObject.SetActive(true);
         
         AudioManager.Instance.PlayBGM(BGMType.InGame);
         AudioManager.Instance.PlaySe(SeType.Opening);
@@ -39,15 +39,18 @@ public class OrderState : GameStateBase
         try
         {
             //  OnCompleteでステート遷移するとステート終了後でも動いてしまうのでcancellationTokenで止めるようにした
-            await _customer.DOAnchorPosX(0, _duration).ToUniTask(cancellationToken: ct);
+            await _customer.DOAnchorPosX(0, _duration).WithCancellation(cancellationToken: ct);
+            if (!ct.IsCancellationRequested)
+            {
+                GameStateMachine.Instance.ChangeNextState(GamePhase.SelectMaterial);
+                AudioManager.Instance.PlaySe(SeType.Order);
+            }
         }
         catch (OperationCanceledException e)
         {
             Debug.Log(e);
             throw;
         }
-        GameStateMachine.Instance.ChangeNextState(GamePhase.SelectMaterial);
-        AudioManager.Instance.PlaySe(SeType.Order);
     }
 
     public override void OnUpdate(float deltaTime)
@@ -58,6 +61,6 @@ public class OrderState : GameStateBase
     public override void OnExit()
     {
         // 客入店テキスト非表示
-        _customer.gameObject.SetActive(false);
+        _customerText.gameObject.SetActive(false);
     }
 }

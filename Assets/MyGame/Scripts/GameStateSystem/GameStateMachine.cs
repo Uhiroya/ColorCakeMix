@@ -41,10 +41,10 @@ public class GameStateMachine : SingletonMonoBehavior<GameStateMachine>
         {
             if (_currentState)
             {
-                _currentState.OnExit();
                 //Stateから抜ける際に待機処理があればキャンセルする
                 _cts.Cancel();
                 _cts = new CancellationTokenSource();
+                _currentState.OnExit();
             }
             _nextState.OnEnter(_cts.Token);
             _currentState = _nextState;
@@ -55,6 +55,7 @@ public class GameStateMachine : SingletonMonoBehavior<GameStateMachine>
 
     public void ChangeNextState(GamePhase nextPhase)
     {
+        Debug.Log(nextPhase);
         switch (nextPhase)
         {
             case GamePhase.Title :

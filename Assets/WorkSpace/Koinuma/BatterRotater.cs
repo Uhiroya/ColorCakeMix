@@ -1,3 +1,4 @@
+using System;
 using System.Numerics;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,11 +13,18 @@ public class BatterRotater : MonoBehaviour
     [SerializeField] private float _scaleDownSpeed;
     [SerializeField] private float _minScale;
     [SerializeField] private float _maxScale;
-    [SerializeField] private GameObject _batterImageObj;
+    [SerializeField] private Image _batterImageObj;
     [SerializeField] private Text _angleText;
+    [SerializeField, Tooltip("ケーキのUIが入っているCanvas")] private Canvas _parentCanvas;
+    private RectTransform _canvasRectTransform;
 
     private float _currentScale = 1;
     private float _lastRotateRad;
+
+    private void Awake()
+    {
+        _canvasRectTransform = _parentCanvas.GetComponent<RectTransform>();
+    }
 
     public void Initialize()
     {
@@ -28,13 +36,19 @@ public class BatterRotater : MonoBehaviour
     
     public float BatterRotate(float deltaTime)
     {
-        Vector2 mousePos = Input.mousePosition - transform.position;
+        // CanvasのRectTransform内にあるマウスの座標をローカル座標に変換する
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            _canvasRectTransform,
+            Input.mousePosition,
+            _parentCanvas.worldCamera, 
+            out var mousePosition);
+        
         float rotateRadFromLast = _defaultMixSpeed * deltaTime;
         CurrentRotateSpeed = _defaultMixSpeed;
-
+        
         if (Input.GetMouseButton(0))
         {
-            Vector2 angleFromLast = Rotate(mousePos, _lastRotateRad);
+            Vector2 angleFromLast = Rotate(mousePosition, _lastRotateRad);
             rotateRadFromLast += Mathf.Atan2(angleFromLast.x, angleFromLast.y);
             CurrentRotateSpeed += Mathf.Atan2(angleFromLast.x, angleFromLast.y);
             _currentScale += Mathf.Clamp(rotateRadFromLast, 0, rotateRadFromLast) * 0.02f * _scaleUpSpeed;
@@ -46,7 +60,7 @@ public class BatterRotater : MonoBehaviour
             }
         }
 
-        _lastRotateRad = Mathf.Atan2(mousePos.x, mousePos.y);
+        _lastRotateRad = Mathf.Atan2(mousePosition.x, mousePosition.y);
         _currentScale -= _scaleDownSpeed * deltaTime;
         _currentScale = Mathf.Clamp(_currentScale, _minScale, _maxScale);
         _batterImageObj.transform.localScale = Vector3.one * _currentScale;

@@ -25,6 +25,7 @@ public class SelectMaterialState : GameStateBase
     {
         _materialPanel.SetActive(false);
         _selectMaterialText.gameObject.SetActive(false);
+        _gotoCookText.gameObject.SetActive(false);
     }
 
     public override void OnEnter(CancellationToken ct)
@@ -58,25 +59,19 @@ public class SelectMaterialState : GameStateBase
         {
             await UniTask.WaitUntil(() => selectColorLimit <= ColorManager.Instance.SelectMaterials.Count,
                 cancellationToken: _ct);
-        }
-        catch
-        {
-            // ignored
-        }
-        JudgeMaterial();
-
-        try
-        {
+            JudgeMaterial();
             // Let'sCook表示await
-            await UniTask.Delay(TimeSpan.FromSeconds(_cookTextWaitTime), cancellationToken: _ct);
+            _gotoCookText.gameObject.SetActive(true);
+            GameStateMachine.Instance.ChangeNextState(GamePhase.Cook);
+            Invoke(nameof(Inactive), 2f);
         }
         catch
         {
             // ignored
         }
-        
-        GameStateMachine.Instance.ChangeNextState(GamePhase.Cook);
     }
+
+    void Inactive() =>  _gotoCookText.gameObject.SetActive(false);
 
     private void JudgeMaterial()
     {
