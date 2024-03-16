@@ -1998,6 +1998,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7947235232261182763, guid: 5081b7bae9c8c814cabeb08d5a84b89c, type: 3}
+      propertyPath: m_Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: 6ceed32b13207144292dbc431f74bdad, type: 3}
     - target: {fileID: 8066750241716658213, guid: 5081b7bae9c8c814cabeb08d5a84b89c, type: 3}
       propertyPath: _gotoCookText
       value: 
