@@ -16,24 +16,28 @@ public class BatterRotater : MonoBehaviour
     [SerializeField] private Image _batterImageObj;
     [SerializeField] private Text _angleText;
     [SerializeField, Tooltip("ケーキのUIが入っているCanvas")] private Canvas _parentCanvas;
+    [SerializeField, Tooltip("回転方向、trueが右、falseが左")] private bool _rotateDirection;
     private RectTransform _canvasRectTransform;
 
     private float _currentScale = 1;
     private float _lastRotateRad;
+    private float _currentMixSpeed;
+    private float _prevRad;
+    private float _velocity;
+    [SerializeField, Range(0, 100)] private float _deceleration = 0.5f;
+    public float Velocity => _velocity;
 
     private void Awake()
     {
         _canvasRectTransform = _parentCanvas.GetComponent<RectTransform>();
+        _currentMixSpeed = _defaultMixSpeed;
     }
 
     public void Initialize()
     {
         _currentScale = 1;
+        _currentMixSpeed = _defaultMixSpeed;
     }
-
-    public float CurrentRotateSpeed;
-    public float DefaultMixSpeed => _defaultMixSpeed;
-    
     public float BatterRotate(float deltaTime)
     {
         // CanvasのRectTransform内にあるマウスの座標をローカル座標に変換する
@@ -43,30 +47,33 @@ public class BatterRotater : MonoBehaviour
             _parentCanvas.worldCamera, 
             out var mousePosition);
         
-        float rotateRadFromLast = _defaultMixSpeed * deltaTime;
-        CurrentRotateSpeed = _defaultMixSpeed;
-        
-        if (Input.GetMouseButton(0))
+        var rad = Mathf.Atan2(mousePosition.x, mousePosition.y);
+        var dRad = Mathf.Tan(rad - _prevRad);
+        if (Input.GetMouseButton(0) && dRad != 0)
         {
-            Vector2 angleFromLast = Rotate(mousePosition, _lastRotateRad);
-            rotateRadFromLast += Mathf.Atan2(angleFromLast.x, angleFromLast.y);
-            CurrentRotateSpeed += Mathf.Atan2(angleFromLast.x, angleFromLast.y);
-            _currentScale += Mathf.Clamp(rotateRadFromLast, 0, rotateRadFromLast) * 0.02f * _scaleUpSpeed;
-
-            if (_angleText)
+            _velocity += dRad * deltaTime;
+            //  正しい方向に回していたらScaleを上げる
+            if (_rotateDirection && dRad > 0)
             {
-                _angleText.text = (rotateRadFromLast * 100).ToString();
-                _angleText.color = (rotateRadFromLast > 0)? Color.red : Color.blue;
+                _currentScale += dRad * 0.02f * _scaleUpSpeed;
+            }
+            else if(!_rotateDirection && dRad < 0)
+            {
+                _currentScale += Mathf.Abs(dRad) * 0.02f * _scaleUpSpeed;
             }
         }
+        else
+        {
+            var sign = Mathf.Sign(_velocity);
+            _velocity = Mathf.Clamp(Mathf.Abs(_velocity) - _deceleration * deltaTime, 0f, float.MaxValue) * sign;
+        }
 
-        _lastRotateRad = Mathf.Atan2(mousePosition.x, mousePosition.y);
+        _prevRad = rad;
         _currentScale -= _scaleDownSpeed * deltaTime;
         _currentScale = Mathf.Clamp(_currentScale, _minScale, _maxScale);
         _batterImageObj.transform.localScale = Vector3.one * _currentScale;
-        _batterImageObj.transform.Rotate(Vector3.forward, -Mathf.Clamp(rotateRadFromLast, 0, rotateRadFromLast) * _rotateSpeed);
 
-        return rotateRadFromLast;
+        return dRad;
     }
     
     private static Vector2 Rotate(Vector2 from, float angleRad)

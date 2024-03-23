@@ -139,8 +139,8 @@ Material:
     - _Strength: 0.2
     - _UVSec: 0
     - _UseUIAlphaClip: 0
-    - _Vortex_Speed: 2
-    - _Vortex_Strength: 20
+    - _Vortex_Speed: 81.9
+    - _Vortex_Strength: -17.9
     - _ZWrite: 0
     m_Colors:
     - _CameraFadeParams: {r: 0, g: Infinity, b: 0, a: 0}

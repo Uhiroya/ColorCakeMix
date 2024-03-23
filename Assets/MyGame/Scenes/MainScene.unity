@@ -2091,6 +2091,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8780846389310946095, guid: 5081b7bae9c8c814cabeb08d5a84b89c, type: 3}
+      propertyPath: _deceleration
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8780846389310946095, guid: 5081b7bae9c8c814cabeb08d5a84b89c, type: 3}
       propertyPath: _parentCanvas
       value: 
       objectReference: {fileID: 1709769896}
@@ -2098,6 +2102,14 @@ PrefabInstance:
       propertyPath: _batterImageObj
       value: 
       objectReference: {fileID: 1706866789}
+    - target: {fileID: 8780846389310946095, guid: 5081b7bae9c8c814cabeb08d5a84b89c, type: 3}
+      propertyPath: _defaultMixSpeed
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8780846389310946095, guid: 5081b7bae9c8c814cabeb08d5a84b89c, type: 3}
+      propertyPath: _rotateDirection
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8848829363658305796, guid: 5081b7bae9c8c814cabeb08d5a84b89c, type: 3}
       propertyPath: m_SizeDelta.y
       value: 40
@@ -2112,7 +2124,7 @@ PrefabInstance:
       objectReference: {fileID: 1706866784}
     - target: {fileID: 9049277466669993009, guid: 5081b7bae9c8c814cabeb08d5a84b89c, type: 3}
       propertyPath: _rotateSpeedMultiplier
-      value: 0.1
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
