@@ -1,5 +1,6 @@
 using System;
 using System.Threading;
+using Cinemachine;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
@@ -14,6 +15,8 @@ public class OrderState : GameStateBase
     [SerializeField, Tooltip("客の画像")] private RectTransform _customer;
     [SerializeField, Tooltip("客の開始地点")] private float _startXPosition;
     [SerializeField, Tooltip("客がスライドし終わるまでの時間")] private float _duration;
+    [SerializeField] private CinemachineVirtualCamera _cookingCamera;
+    [SerializeField] private CinemachineVirtualCamera _orderCamera;
     private CancellationToken _ct;
 
     private void Awake()
@@ -36,6 +39,8 @@ public class OrderState : GameStateBase
         var pos = _customer.anchoredPosition;
         pos.x = _startXPosition;
         _customer.anchoredPosition = pos;
+        _cookingCamera.Priority = 0;
+        _orderCamera.Priority = 1;
         try
         {
             //  OnCompleteでステート遷移するとステート終了後でも動いてしまうのでcancellationTokenで止めるようにした

@@ -465,6 +465,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3844766645883812098, guid: 6eb1a73064b37d74eb9211d74a616f51, type: 3}
+      propertyPath: _batterImageObj
+      value: 
+      objectReference: {fileID: 6079307092803584308}
     - target: {fileID: 7794639521015652310, guid: 6eb1a73064b37d74eb9211d74a616f51, type: 3}
       propertyPath: m_Name
       value: BakingUI
@@ -478,6 +482,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6eb1a73064b37d74eb9211d74a616f51, type: 3}
+--- !u!114 &6079307092803584308 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2641755498352415292, guid: 6eb1a73064b37d74eb9211d74a616f51, type: 3}
+  m_PrefabInstance: {fileID: 6079307092803584307}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

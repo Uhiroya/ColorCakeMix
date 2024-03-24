@@ -11,6 +11,7 @@ public class BatterManager : MonoBehaviour
     [SerializeField, Tooltip("ベストタイミング開始となりうる最大値")] private float _maxBakingBestTime;
     [SerializeField, Tooltip("ベストタイミングの長さ最低値")] private float _minLengthBestTiming;
     [SerializeField, Tooltip("ベストタイミングの長さ最大値")] private float _maxLengthBestTiming;
+    
     [Space(10)]
     [SerializeField] private BatterRotater _batterRotater;
     [SerializeField] private Image _timerGauge;
@@ -19,7 +20,7 @@ public class BatterManager : MonoBehaviour
     [Space(10)]
     [SerializeField] private Text _amountMixedText;
     [SerializeField] private HotCakeView _hotCakeView;
-
+    
     /// <summary> Score減点計算のBase満点 </summary>
     private float _baseScore = 500;
     private float _minBestTiming;
@@ -30,16 +31,15 @@ public class BatterManager : MonoBehaviour
     private float _nextMixSoundAmount;
     private float _mixSoundRate = 6.28f; // 1周
     private Vector2 _bestTimeingAreaPosDiff;
-    
-    /// <summary> 現在フレームの回転量 </summary>
-    public float CurrentAmountRotation { get; private set; }
     public event Action FinishAction;
+    public BatterRotater BatterRotater => _batterRotater;
 
     public void InitializeParameter()
     {
         _amountMixed = 0;
         _bakingTimer = 0;
         _nextMixSoundAmount = 0;
+        _batterRotater.Velocity = 0;
     }
     public void InitializeRandomValue()
     {
@@ -56,8 +56,15 @@ public class BatterManager : MonoBehaviour
     public void BakingUpdate(float deltaTime)
     {
         _bakingTimer += deltaTime;
-        CurrentAmountRotation = _batterRotater.BatterRotate(deltaTime);
-        _amountMixed += CurrentAmountRotation;
+        var currentRotate = _batterRotater.BatterRotate(deltaTime);
+        if (_batterRotater.RotateDirection && currentRotate > 0)  //  回すべき方向が右の時に右に回していたら混ざり具合を上げる
+        {
+            _amountMixed += currentRotate;
+        }
+        else if(!_batterRotater.RotateDirection && currentRotate < 0)  //  回すべき方向が左の時に左に回していたら混ざり具合を上げる
+        {
+            _amountMixed += Mathf.Abs(currentRotate);
+        }
         if (_amountMixedText) _amountMixedText.text = _amountMixed.ToString("0.00");
         
         // ui

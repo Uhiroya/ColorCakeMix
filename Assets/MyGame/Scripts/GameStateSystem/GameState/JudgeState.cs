@@ -23,6 +23,7 @@ public class JudgeState : GameStateBase
 
     public override void OnEnter(CancellationToken ct)
     {
+        BackGroundController.Instance.Display(true);
         _judgeTimer = 0;
         _judgePanel.SetActive(true);
         InGameManager.CakeData judgeCakeData = InGameManager.Instance.SaveFinishedCake();
@@ -52,5 +53,6 @@ public class JudgeState : GameStateBase
     public override void OnExit()
     {
         _judgePanel.SetActive(false);
+        BackGroundController.Instance.Display(false);
     }
 }
