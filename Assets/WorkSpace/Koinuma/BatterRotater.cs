@@ -54,12 +54,14 @@ public class BatterRotater : MonoBehaviour
             out var mousePosition);
         
         var angle = 0f;
+        var distance = Vector2.zero;
         Vector2 angleFromLast = Rotate(mousePosition, _lastRotateRad);
         if (Input.GetMouseButton(0))
         {
             angle = Mathf.Atan2(angleFromLast.x, angleFromLast.y);
+            distance = _prevMousePosition - mousePosition;
         }
-        if (_prevMousePosition - mousePosition != Vector2.zero)
+        if (distance != Vector2.zero)
         {
             _velocity += angle * deltaTime;
             //  正しい方向に回していたらScaleを上げる
