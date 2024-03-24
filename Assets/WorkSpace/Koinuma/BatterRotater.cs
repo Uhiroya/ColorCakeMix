@@ -22,9 +22,9 @@ public class BatterRotater : MonoBehaviour
 
     private float _currentScale = 1;
     private float _lastRotateRad;
-    private float _currentMixSpeed;
     private float _prevRad;
     private float _velocity;
+    private Vector2 _prevMousePosition;
     [SerializeField, Range(0, 100)] private float _deceleration = 0.5f;
     public float Velocity
     {
@@ -37,14 +37,12 @@ public class BatterRotater : MonoBehaviour
     private void Awake()
     {
         _canvasRectTransform = _parentCanvas.GetComponent<RectTransform>();
-        _currentMixSpeed = _defaultMixSpeed;
     }
 
     public void Initialize()
     {
         _currentScale = 1;
         _batterImageObj.transform.localScale = Vector3.one * _currentScale;
-        _currentMixSpeed = _defaultMixSpeed;
     }
     public float BatterRotate(float deltaTime)
     {
@@ -56,12 +54,12 @@ public class BatterRotater : MonoBehaviour
             out var mousePosition);
         
         var angle = 0f;
+        Vector2 angleFromLast = Rotate(mousePosition, _lastRotateRad);
         if (Input.GetMouseButton(0))
         {
-            Vector2 angleFromLast = Rotate(mousePosition, _lastRotateRad);
             angle = Mathf.Atan2(angleFromLast.x, angleFromLast.y);
         }
-        if (angle != 0)
+        if (_prevMousePosition - mousePosition != Vector2.zero)
         {
             _velocity += angle * deltaTime;
             //  正しい方向に回していたらScaleを上げる
@@ -95,7 +93,8 @@ public class BatterRotater : MonoBehaviour
             var sign = Mathf.Sign(_velocity);
             _velocity = Mathf.Clamp(Mathf.Abs(_velocity) - _deceleration * deltaTime, 0f, float.MaxValue) * sign;
         }
-        
+
+        _prevMousePosition = mousePosition;
         _lastRotateRad = Mathf.Atan2(mousePosition.x, mousePosition.y);
         _currentScale -= _scaleDownSpeed * deltaTime;
         _currentScale = Mathf.Clamp(_currentScale, _minScale, _maxScale);
